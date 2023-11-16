@@ -10,10 +10,8 @@ import 'package:flutter_deer/widgets/my_button.dart';
 
 import 'menu_reveal.dart';
 
-
 /// design/4商品/index.html#artboard1
 class GoodsItem extends StatelessWidget {
-  
   const GoodsItem({
     super.key,
     required this.item,
@@ -38,7 +36,7 @@ class GoodsItem extends StatelessWidget {
   final VoidCallback onTapMenuClose;
   final Animation<double> animation;
   final String heroTag;
-  
+
   @override
   Widget build(BuildContext context) {
     final Row child = Row(
@@ -56,7 +54,9 @@ class GoodsItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                item.type % 3 != 0 ? '八月十五中秋月饼礼盒' : '八月十五中秋月饼礼盒八月十五中秋月饼礼盒',
+                item.type % 3 != 0
+                    ? 'August 15th Mid-Autumn Mooncake Gift Box'
+                    : 'Mid-Autumn Festival mooncake gift box on August 15th Mid-Autumn mooncake gift box on August 15th',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -67,7 +67,7 @@ class GoodsItem extends StatelessWidget {
                     // 默认为占位替换，类似于gone
                     visible: item.type % 3 == 0,
                     child: _GoodsItemTag(
-                      text: '立减',
+                      text: 'Instant discount',
                       color: Theme.of(context).colorScheme.error,
                     ),
                   ),
@@ -75,7 +75,7 @@ class GoodsItem extends StatelessWidget {
                     // 修改透明度实现隐藏，类似于invisible
                     opacity: item.type % 2 != 0 ? 0.0 : 1.0,
                     child: _GoodsItemTag(
-                      text: '金币抵扣',
+                      text: 'Gold coin deduction',
                       color: Theme.of(context).primaryColor,
                     ),
                   )
@@ -92,7 +92,7 @@ class GoodsItem extends StatelessWidget {
             Semantics(
               /// container属性为true，防止上方ExcludeSemantics去除此处语义
               container: true,
-              label: '商品操作菜单',
+              label: 'Product operation menu',
               child: GestureDetector(
                 onTap: onTapMenu,
                 child: Container(
@@ -108,7 +108,7 @@ class GoodsItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Text(
-                '特产美味',
+                'Delicious specialties',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             )
@@ -116,7 +116,7 @@ class GoodsItem extends StatelessWidget {
         )
       ],
     );
-    
+
     return Stack(
       children: <Widget>[
         // item间的分隔线
@@ -138,19 +138,15 @@ class GoodsItem extends StatelessWidget {
       ],
     );
   }
-  
+
   Widget _buildGoodsMenu(BuildContext context) {
     return Positioned.fill(
       child: AnimatedBuilder(
-        animation: animation,
-        child: _buildGoodsMenuContent(context),
-        builder: (_, Widget? child) {
-          return MenuReveal(
-            revealPercent: animation.value,
-            child: child!
-          );
-        }
-      ),
+          animation: animation,
+          child: _buildGoodsMenuContent(context),
+          builder: (_, Widget? child) {
+            return MenuReveal(revealPercent: animation.value, child: child!);
+          }),
     );
   }
 
@@ -168,19 +164,20 @@ class GoodsItem extends StatelessWidget {
             Gaps.hGap15,
             MyButton(
               key: Key('goods_edit_item_$index'),
-              text: '编辑',
+              text: 'edit',
               fontSize: Dimens.font_sp16,
               radius: 24.0,
               minWidth: 56.0,
               minHeight: 56.0,
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               textColor: isDark ? Colours.dark_button_text : Colors.white,
-              backgroundColor: isDark ? Colours.dark_app_main : Colours.app_main,
+              backgroundColor:
+                  isDark ? Colours.dark_app_main : Colours.app_main,
               onPressed: onTapEdit,
             ),
             MyButton(
               key: Key('goods_operation_item_$index'),
-              text: '下架',
+              text: 'Removed from shelves',
               fontSize: Dimens.font_sp16,
               radius: 24.0,
               minWidth: 56.0,
@@ -192,7 +189,7 @@ class GoodsItem extends StatelessWidget {
             ),
             MyButton(
               key: Key('goods_delete_item_$index'),
-              text: '删除',
+              text: 'delete',
               fontSize: Dimens.font_sp16,
               radius: 24.0,
               minWidth: 56.0,
@@ -211,7 +208,6 @@ class GoodsItem extends StatelessWidget {
 }
 
 class _GoodsItemTag extends StatelessWidget {
-  
   const _GoodsItemTag({
     required this.color,
     required this.text,
@@ -219,7 +215,7 @@ class _GoodsItemTag extends StatelessWidget {
 
   final Color? color;
   final String text;
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(

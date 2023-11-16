@@ -4,10 +4,9 @@ import 'package:flutter_deer/res/constant.dart';
 import 'package:sp_util/sp_util.dart';
 
 class LocaleProvider extends ChangeNotifier {
-
   Locale? get locale {
     final String locale = SpUtil.getString(Constant.locale) ?? '';
-    switch(locale) {
+    switch (locale) {
       case 'zh':
         return const Locale('zh', 'CN');
       case 'en':
@@ -21,5 +20,4 @@ class LocaleProvider extends ChangeNotifier {
     SpUtil.putString(Constant.locale, locale);
     notifyListeners();
   }
-
 }

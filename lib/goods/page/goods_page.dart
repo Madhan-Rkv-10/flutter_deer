@@ -12,19 +12,27 @@ import 'package:flutter_deer/widgets/load_image.dart';
 import 'package:flutter_deer/widgets/popup_window.dart';
 import 'package:provider/provider.dart';
 
-
 /// design/4商品/index.html
 class GoodsPage extends StatefulWidget {
-
   const GoodsPage({super.key});
 
   @override
   _GoodsPageState createState() => _GoodsPageState();
 }
 
-class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-
-  final List<String> _sortList = ['全部商品', '个人护理', '饮料', '沐浴洗护', '厨房用具', '休闲食品', '生鲜水果', '酒水', '家庭清洁'];
+class _GoodsPageState extends State<GoodsPage>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  final List<String> _sortList = [
+    'all products',
+    'personal care',
+    'drinks',
+    'Bath care',
+    'Kitchenware',
+    'Snack foods',
+    'fresh fruits',
+    'drinks',
+    'home cleaning'
+  ];
   TabController? _tabController;
   final PageController _pageController = PageController();
 
@@ -33,7 +41,7 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
   final GlobalKey _buttonKey = GlobalKey();
 
   GoodsPageProvider provider = GoodsPageProvider();
-  
+
   @override
   void initState() {
     super.initState();
@@ -49,8 +57,7 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
   /// https://github.com/flutter/flutter/issues/72908
   @override
   // ignore: must_call_super
-  void didChangeDependencies() {
-  }
+  void didChangeDependencies() {}
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +70,8 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
           actions: <Widget>[
             IconButton(
               tooltip: '搜索商品',
-              onPressed: () => NavigatorUtils.push(context, GoodsRouter.goodsSearchPage),
+              onPressed: () =>
+                  NavigatorUtils.push(context, GoodsRouter.goodsSearchPage),
               icon: LoadAssetImage(
                 'goods/search',
                 key: const Key('search'),
@@ -95,9 +103,11 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
               label: '选择商品类型',
               child: GestureDetector(
                 key: _buttonKey,
+
                 /// 使用Selector避免同provider数据变化导致此处不必要的刷新
                 child: Selector<GoodsPageProvider, int>(
                   selector: (_, provider) => provider.sortIndex,
+
                   /// 精准判断刷新条件（provider 4.0新属性）
 //                  shouldRebuild: (previous, next) => previous != next,
                   builder: (_, sortIndex, __) {
@@ -111,7 +121,12 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
                           style: TextStyles.textBold24,
                         ),
                         Gaps.hGap8,
-                        LoadAssetImage('goods/expand', width: 16.0, height: 16.0, color: iconColor,)
+                        LoadAssetImage(
+                          'goods/expand',
+                          width: 16.0,
+                          height: 16.0,
+                          color: iconColor,
+                        )
                       ],
                     );
                   },
@@ -136,25 +151,25 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
                 labelStyle: TextStyles.textBold18,
                 indicatorSize: TabBarIndicatorSize.label,
                 labelPadding: EdgeInsets.zero,
-                unselectedLabelColor: context.isDark ? Colours.text_gray : Colours.text,
+                unselectedLabelColor:
+                    context.isDark ? Colours.text_gray : Colours.text,
                 labelColor: Theme.of(context).primaryColor,
                 indicatorPadding: const EdgeInsets.only(right: 98.0 - 36.0),
                 tabs: const <Widget>[
-                  _TabView('在售', 0),
-                  _TabView('待售', 1),
-                  _TabView('下架', 2),
+                  _TabView('in stock', 0),
+                  _TabView('for sale', 1),
+                  _TabView('Removed from shelves', 2),
                 ],
               ),
             ),
             Gaps.line,
             Expanded(
               child: PageView.builder(
-                key: const Key('pageView'),
-                itemCount: 3,
-                onPageChanged: _onPageChange,
-                controller: _pageController,
-                itemBuilder: (_, int index) => GoodsListPage(index: index)
-              ),
+                  key: const Key('pageView'),
+                  itemCount: 3,
+                  onPageChanged: _onPageChange,
+                  controller: _pageController,
+                  itemBuilder: (_, int index) => GoodsListPage(index: index)),
             )
           ],
         ),
@@ -170,8 +185,10 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
   /// design/4商品/index.html#artboard3
   void _showSortMenu() {
     // 获取点击控件的坐标
-    final RenderBox button = _buttonKey.currentContext!.findRenderObject()! as RenderBox;
-    final RenderBox body = _bodyKey.currentContext!.findRenderObject()! as RenderBox;
+    final RenderBox button =
+        _buttonKey.currentContext!.findRenderObject()! as RenderBox;
+    final RenderBox body =
+        _bodyKey.currentContext!.findRenderObject()! as RenderBox;
 
     showPopupWindow<void>(
       context: context,
@@ -191,7 +208,8 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
 
   /// design/4商品/index.html#artboard4
   void _showAddMenu() {
-    final RenderBox button = _addKey.currentContext!.findRenderObject()! as RenderBox;
+    final RenderBox button =
+        _addKey.currentContext!.findRenderObject()! as RenderBox;
 
     showPopupWindow<void>(
       context: context,
@@ -207,17 +225,16 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
 }
 
 class _TabView extends StatelessWidget {
-  
   const _TabView(this.tabName, this.index);
-  
+
   final String tabName;
   final int index;
-  
+
   @override
   Widget build(BuildContext context) {
     return Tab(
-      child: SizedBox(
-        width: 98.0,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minWidth: 98, maxWidth: 130),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -225,10 +242,13 @@ class _TabView extends StatelessWidget {
             Consumer<GoodsPageProvider>(
               builder: (_, provider, child) {
                 return Visibility(
-                  visible: !(provider.goodsCountList[index] == 0 || provider.index != index),
+                  visible: !(provider.goodsCountList[index] == 0 ||
+                      provider.index != index),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 1.0),
-                    child: Text(' (${provider.goodsCountList[index]}件)',
+                    child: Text(
+                      ' (${provider.goodsCountList[index]}件)',
+                      maxLines: 2,
                       style: const TextStyle(fontSize: Dimens.font_sp12),
                     ),
                   ),
