@@ -11,7 +11,6 @@ import '../account_router.dart';
 
 /// design/6店铺-账户/index.html#artboard2
 class AccountPage extends StatefulWidget {
-
   const AccountPage({super.key});
 
   @override
@@ -22,31 +21,33 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(
-        centerTitle: '资金管理',
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Gaps.vGap5,
-            _buildCard(),
-            Gaps.vGap5,
-            ClickItem(
-              title: '提现',
-              onTap: () => NavigatorUtils.push(context, AccountRouter.withdrawalPage),
-            ),
-            ClickItem(
-              title: '提现记录',
-              onTap: () => NavigatorUtils.push(context, AccountRouter.withdrawalRecordListPage),
-            ),
-            ClickItem(
-              title: '提现密码',
-              onTap: () => NavigatorUtils.push(context, AccountRouter.withdrawalPasswordPage),
-            ),
-          ],
+        appBar: const MyAppBar(
+          centerTitle: 'Money management',
         ),
-      )
-    );
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Gaps.vGap5,
+              _buildCard(),
+              Gaps.vGap5,
+              ClickItem(
+                title: 'withdraw',
+                onTap: () =>
+                    NavigatorUtils.push(context, AccountRouter.withdrawalPage),
+              ),
+              ClickItem(
+                title: 'Withdrawals record',
+                onTap: () => NavigatorUtils.push(
+                    context, AccountRouter.withdrawalRecordListPage),
+              ),
+              ClickItem(
+                title: 'Withdraw password',
+                onTap: () => NavigatorUtils.push(
+                    context, AccountRouter.withdrawalPasswordPage),
+              ),
+            ],
+          ),
+        ));
   }
 
   Widget _buildCard() {
@@ -64,16 +65,22 @@ class _AccountPageState extends State<AccountPage> {
         child: const Column(
           children: <Widget>[
             _AccountMoney(
-              title: '当前余额(元)',
+              title: 'Current balance (yuan)',
               money: '30.12',
               alignment: MainAxisAlignment.end,
-              moneyTextStyle: TextStyle(color: Colors.white, fontSize: 32.0, fontWeight: FontWeight.bold, fontFamily: 'RobotoThin'),
+              moneyTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'RobotoThin'),
             ),
             Expanded(
               child: Row(
                 children: <Widget>[
-                  _AccountMoney(title: '累计结算金额', money: '20000'),
-                  _AccountMoney(title: '累计发放佣金', money: '0.02'),
+                  _AccountMoney(
+                      title: 'Cumulative settlement amount', money: '20000'),
+                  _AccountMoney(
+                      title: 'Cumulative commission issued', money: '0.02'),
                 ],
               ),
             ),
@@ -85,13 +92,11 @@ class _AccountPageState extends State<AccountPage> {
 }
 
 class _AccountMoney extends StatelessWidget {
-  
-  const _AccountMoney({
-    required this.title,
-    required this.money,
-    this.alignment,
-    this.moneyTextStyle
-  });
+  const _AccountMoney(
+      {required this.title,
+      required this.money,
+      this.alignment,
+      this.moneyTextStyle});
 
   final String title;
   final String money;
@@ -107,17 +112,17 @@ class _AccountMoney extends StatelessWidget {
           children: <Widget>[
             /// 横向撑开Column，扩大语义区域
             const SizedBox(width: double.infinity),
-            Text(title, style: const TextStyle(color: Colours.text_disabled, fontSize: Dimens.font_sp12)),
+            Text(title,
+                style: const TextStyle(
+                    color: Colours.text_disabled, fontSize: Dimens.font_sp12)),
             Gaps.vGap8,
-            RiseNumberText(
-              NumUtil.getDoubleByValueStr(money) ?? 0,
-              style: moneyTextStyle ?? const TextStyle(
-                color: Colours.text_disabled, 
-                fontSize: Dimens.font_sp14,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'RobotoThin'
-              )
-            ),
+            RiseNumberText(NumUtil.getDoubleByValueStr(money) ?? 0,
+                style: moneyTextStyle ??
+                    const TextStyle(
+                        color: Colours.text_disabled,
+                        fontSize: Dimens.font_sp14,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'RobotoThin')),
           ],
         ),
       ),
